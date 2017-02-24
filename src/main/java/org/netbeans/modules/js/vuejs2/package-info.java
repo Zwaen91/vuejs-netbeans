@@ -1,7 +1,7 @@
 @TemplateRegistration(
         folder = "Other",
-        description =  "VueComponentDescription.html",
-        iconBase =  "org/netbeans/modules/js/vuejs2/vuejs16.png",
+        description = "VueComponentDescription.html",
+        iconBase = "org/netbeans/modules/js/vuejs2/vuejs16.png",
         displayName = "Vue Component",
         content = "VueComponentTemplate.vue"
 )

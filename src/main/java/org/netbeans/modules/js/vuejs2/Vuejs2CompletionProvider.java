@@ -1,6 +1,8 @@
 package org.netbeans.modules.js.vuejs2;
 
-import java.util.Locale;
+import org.netbeans.modules.js.vuejs2.items.Vuejs2CompletionItem;
+import org.netbeans.modules.js.vuejs2.items.Vuejs2ModifierCompletionItem;
+import java.util.List;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
@@ -8,6 +10,9 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.api.editor.mimelookup.MimeRegistrations;
+import org.netbeans.modules.js.vuejs2.items.Vuejs2NameCompletionItem;
+import org.netbeans.modules.js.vuejs2.items.Vuejs2ShorthandCompletionItem;
+import org.netbeans.spi.editor.completion.CompletionItem;
 import org.netbeans.spi.editor.completion.CompletionProvider;
 import org.netbeans.spi.editor.completion.CompletionResultSet;
 import org.netbeans.spi.editor.completion.CompletionTask;
@@ -16,10 +21,13 @@ import org.netbeans.spi.editor.completion.support.AsyncCompletionTask;
 import org.openide.util.Exceptions;
 
 @MimeRegistrations({
-    @MimeRegistration(mimeType = "application/vue", service = CompletionProvider.class),
+    @MimeRegistration(mimeType = "application/vue", service = CompletionProvider.class)
+    ,
     @MimeRegistration(mimeType = "application/javascript", service = CompletionProvider.class)
 })
 public class Vuejs2CompletionProvider implements CompletionProvider {
+
+    private final Directives directives = new Directives();
 
     @Override
     public CompletionTask createTask(int queryType, JTextComponent jtc) {
@@ -48,17 +56,23 @@ public class Vuejs2CompletionProvider implements CompletionProvider {
                     Exceptions.printStackTrace(ex);
                 }
 
-                //Iterate through the available locales
-                //and assign each country display name
-                //to a CompletionResultSet:
-                Locale[] locales = Locale.getAvailableLocales();
-                for (Locale locale : locales) {
-                    final String country = locale.getDisplayCountry();
-                    //Here we test whether the country starts with the filter defined above:
-                    if (!country.equals("") && country.startsWith(filter)) {
-                        //Here we include the start offset, so that we'll be able to figure out
-                        //the number of characters that we'll need to remove:
-                        completionResultSet.addItem(new Vuejs2CompletionItem(country, startOffset, caretOffset));
+                List<Directive> all = directives.getDirectives();
+                for (Directive directive : all) {
+                    Match match = directive.matches(filter);
+                    if (match != null) {
+                        switch (match.field) {
+                            case MODIFIER:
+                                for (String modifier : directive.modifiers) {
+                                    completionResultSet.addItem(new Vuejs2ModifierCompletionItem(modifier, startOffset, caretOffset));
+                                }
+                                break;
+                            case SHORTHAND:
+                                completionResultSet.addItem(new Vuejs2ShorthandCompletionItem(match, startOffset, caretOffset));
+                                break;
+                            case NAME:
+                                completionResultSet.addItem(new Vuejs2NameCompletionItem(match, startOffset, caretOffset));
+                                break;
+                        }
                     }
                 }
                 completionResultSet.finish();
