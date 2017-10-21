@@ -24,11 +24,11 @@ import org.openide.windows.TopComponent;
 })
 @MIMEResolver.ExtensionRegistration(
         displayName = "#LBL_VueComponent_LOADER",
-        mimeType = "application/vue",
+        mimeType = "text/vue+html",
         extension = {"vue"}
 )
 @DataObject.Registration(
-        mimeType = "application/vue",
+        mimeType = "text/vue+html",
         iconBase = "org/netbeans/modules/js/vuejs2/vuejs16.png",
         displayName = "#LBL_VueComponent_LOADER",
         position = 300
@@ -97,7 +97,7 @@ public class VueComponentDataObject extends MultiDataObject {
 
     public VueComponentDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {
         super(pf, loader);
-        registerEditor("application/vue", false);
+        registerEditor("text/vue+html", false);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.netbeans.modules.js.vuejs2;
 
-import org.netbeans.modules.js.vuejs2.items.Vuejs2CompletionItem;
 import org.netbeans.modules.js.vuejs2.items.Vuejs2ModifierCompletionItem;
 import java.util.List;
 import javax.swing.text.BadLocationException;
@@ -9,10 +8,8 @@ import javax.swing.text.Element;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
-import org.netbeans.api.editor.mimelookup.MimeRegistrations;
 import org.netbeans.modules.js.vuejs2.items.Vuejs2NameCompletionItem;
 import org.netbeans.modules.js.vuejs2.items.Vuejs2ShorthandCompletionItem;
-import org.netbeans.spi.editor.completion.CompletionItem;
 import org.netbeans.spi.editor.completion.CompletionProvider;
 import org.netbeans.spi.editor.completion.CompletionResultSet;
 import org.netbeans.spi.editor.completion.CompletionTask;
@@ -20,11 +17,7 @@ import org.netbeans.spi.editor.completion.support.AsyncCompletionQuery;
 import org.netbeans.spi.editor.completion.support.AsyncCompletionTask;
 import org.openide.util.Exceptions;
 
-@MimeRegistrations({
-    @MimeRegistration(mimeType = "application/vue", service = CompletionProvider.class)
-    ,
-    @MimeRegistration(mimeType = "application/javascript", service = CompletionProvider.class)
-})
+@MimeRegistration(mimeType = "text/vue+html", service = CompletionProvider.class)
 public class Vuejs2CompletionProvider implements CompletionProvider {
 
     private final Directives directives = new Directives();
