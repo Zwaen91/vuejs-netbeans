@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.netbeans.modules.js.vuejs2;
+package org.netbeans.modules.js.vuejs2.wizards;
 
 import java.awt.Component;
 import java.io.IOException;
@@ -16,11 +11,13 @@ import javax.swing.JComponent;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.templates.TemplateRegistration;
 import org.openide.WizardDescriptor;
-import org.openide.util.NbBundle.Messages;
 
-// TODO define position attribute
-@TemplateRegistration(folder = "Project/ClientSide", displayName = "#NewVueJsProjectWizardIterator_displayName", iconBase = "org/netbeans/modules/js/vuejs2/vuejs16.png", description = "newVueJsProject.html")
-@Messages("NewVueJsProjectWizardIterator_displayName=VueJs2 Project")
+@TemplateRegistration(
+        folder = "Project/ClientSide", 
+        displayName = "VueJs2 Project", 
+        iconBase = "org/netbeans/modules/js/vuejs2/vuejs16.png", 
+        description = "newVueJsProject.html"
+)
 public final class NewVueJsProjectWizardIterator implements WizardDescriptor.InstantiatingIterator<WizardDescriptor> {
 
     private int index;
@@ -30,7 +27,7 @@ public final class NewVueJsProjectWizardIterator implements WizardDescriptor.Ins
 
     private List<WizardDescriptor.Panel<WizardDescriptor>> getPanels() {
         if (panels == null) {
-            panels = new ArrayList<WizardDescriptor.Panel<WizardDescriptor>>();
+            panels = new ArrayList<>();
             panels.add(new NewVueJsProjectWizardPanel1());
             String[] steps = createSteps();
             for (int i = 0; i < panels.size(); i++) {
